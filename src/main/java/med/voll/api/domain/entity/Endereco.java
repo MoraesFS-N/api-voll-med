@@ -1,11 +1,11 @@
-package med.voll.api.entity;
+package med.voll.api.domain.entity;
 
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import med.voll.api.model.PostEnderecoDTO;
+import med.voll.api.domain.model.PostEnderecoDTO;
 
 @Getter
 @Setter
