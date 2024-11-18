@@ -14,8 +14,7 @@ public record PostPacienteDTO(@NotBlank
                               @NotBlank
                               @Pattern(regexp = "\\d{11}")
                               String cpf,
-                              @NotNull
-                              EnumEspecialidade especialidade,
+                              String telefone,
                               @NotNull
                               @Valid
                               PostEnderecoDTO endereco) {

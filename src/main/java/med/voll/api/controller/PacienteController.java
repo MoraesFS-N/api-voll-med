@@ -3,11 +3,15 @@ package med.voll.api.controller;
 
 import jakarta.validation.Valid;
 import med.voll.api.domain.entity.Paciente;
+import med.voll.api.domain.model.GetPacienteListDTO;
 import med.voll.api.domain.model.PostPacienteDTO;
-import med.voll.api.domain.model.PutMedicoDTO;
-import med.voll.api.model.GetPacienteDTO;
+import med.voll.api.domain.model.PutPacienteDTO;
+import med.voll.api.domain.model.GetPacienteDTO;
 import med.voll.api.repository.PacienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -26,27 +30,27 @@ public class PacienteController {
 
         Paciente paciente = repository.save(new Paciente(dto));
 
-        var URI = uri.path("/medicos/{id}").buildAndExpand(paciente.getId());
+        var URI = uri.path("/pacientes/{id}").buildAndExpand(paciente.getId());
 
         return ResponseEntity.created(URI.toUri()).body(new GetPacienteDTO(paciente));
     }
 
-//    @GetMapping
-//    public ResponseEntity<Page<GetPacienteListDTO>> list(@PageableDefault(size = 10, sort = {"nome"}) Pageable pageable) {
-//        Page<GetPacienteListDTO> page = repository.findAllByAtivoTrue(pageable).map(GetPacienteListDTO::new);
-//        return ResponseEntity.ok(page);
-//    }
+    @GetMapping
+    public ResponseEntity<Page<GetPacienteListDTO>> list(@PageableDefault(size = 10, sort = {"nome"}) Pageable pageable) {
+        Page<GetPacienteListDTO> page = repository.findAllByAtivoTrue(pageable).map(GetPacienteListDTO::new);
+        return ResponseEntity.ok(page);
+    }
 
-//    @GetMapping("/{id}")
-//    public ResponseEntity<GetMedicoDTO> detail(@PathVariable Long id) {
-//        Paciente paciente = repository.getReferenceById(id);
-//
-//        return ResponseEntity.ok(new GetMedicoDTO(paciente));
-//    }
+    @GetMapping("/{id}")
+    public ResponseEntity<GetPacienteDTO> detail(@PathVariable Long id) {
+        Paciente paciente = repository.getReferenceById(id);
+
+        return ResponseEntity.ok(new GetPacienteDTO(paciente));
+    }
 
     @PutMapping
     @Transactional
-    public ResponseEntity update(@RequestBody @Valid PutMedicoDTO dto) {
+    public ResponseEntity update(@RequestBody @Valid PutPacienteDTO dto) {
         Paciente paciente = repository.getReferenceById(dto.id());
         paciente.updateData(dto);
 
